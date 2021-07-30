@@ -20,7 +20,7 @@ app.use('/api/admin/posts', require('./routes/adminPosts'));
 app.use('/api/admin/users', require('./routes/adminUsers'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));
 
-// Serve static assets in production
+// Serve static assets in production..
 // if (process.env.NODE_ENV === 'production') {
 //   // Set static folder
 //   app.use(express.static('client/build'));
