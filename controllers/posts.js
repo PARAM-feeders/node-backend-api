@@ -86,7 +86,7 @@ const createPost = async (req, res) => {
       type: "post",
       message: "New post created",
       username: postedByName
-    });
+    }); 
 
     res.json({status_code : 201,success: true, post});
   } catch (err) {
