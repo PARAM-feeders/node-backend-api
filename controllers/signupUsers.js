@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 const User = require('../models/User');
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
+  useTLS: true
+});
 
 const registerUser = async (req, res) => {
   const errors = validationResult(req);
@@ -50,6 +59,11 @@ const registerUser = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.json({ "success": true, token });
+        pusher.trigger(process.env.PUSHER_APPID, "re-render-user", {
+          type: "user",
+          message: "user created",
+          username: user.name
+        });
       },
     );
   } catch (err) {

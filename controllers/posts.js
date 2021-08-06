@@ -4,10 +4,10 @@ const Post = require('../models/Post');
 const Pusher = require("pusher");
 
 const pusher = new Pusher({
-  appId: "1221714",
-  key: "cf5a8b64cd1a3450c0cf",
-  secret: "ee093d6f6407c0d2fe7c",
-  cluster: "us2",
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   useTLS: true
 });
 
@@ -82,8 +82,10 @@ const createPost = async (req, res) => {
       }
     });
   
-    pusher.trigger(user_id, "re-render", {
-      message: "posted"
+    pusher.trigger(process.env.PUSHER_APPID, "re-render", {
+      type: "post",
+      message: "New post created",
+      username: postedByName
     });
 
     res.json({status_code : 201,success: true, post});
@@ -107,7 +109,7 @@ const deletePost = async (req, res) => {
 
     await Post.findByIdAndRemove(req.params.id);
     
-    pusher.trigger(req.user.id, "re-render", {
+    pusher.trigger(process.env.PUSHER_APPID, "re-render", {
       message: "deleted"
     });
     
@@ -144,7 +146,7 @@ const updatePost = async (req, res) => {
       { new: true },
     );
 
-    pusher.trigger(req.user.id, "re-render", {
+    pusher.trigger(process.env.PUSHER_APPID, "re-render", {
       message: "updated"
     });
 
