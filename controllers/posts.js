@@ -83,7 +83,8 @@ const createPost = async (req, res) => {
     });
   
     pusher.trigger(process.env.PUSHER_APPID, "re-render", {
-      type: "post",
+      id: post._id,
+      type: "posts",
       message: "New post created",
       username: postedByName
     }); 

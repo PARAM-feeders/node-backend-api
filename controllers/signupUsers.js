@@ -59,9 +59,10 @@ const registerUser = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.json({ "success": true, token });
-        pusher.trigger(process.env.PUSHER_APPID, "re-render-user", {
-          type: "user",
-          message: "user created",
+        pusher.trigger(process.env.PUSHER_APPID, "re-render", {
+          id: user.id,
+          type: "users",
+          message: " has registered.",
           username: user.name
         });
       },
