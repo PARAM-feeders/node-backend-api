@@ -116,7 +116,7 @@ const forgotPassword = async (req, res) => {
   await user.save({ validateBeforeSave: false });
 
   // Create reset password url
-  const resetUrl = `${req.protocol}://${"localhost:3000"}/#/password/reset/${resetToken}`;
+  const resetUrl = `https://feed-the-need.s3.ca-central-1.amazonaws.com/index.html#/password/reset/${resetToken}`;
 
   const message = `Your password reset url is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
 
