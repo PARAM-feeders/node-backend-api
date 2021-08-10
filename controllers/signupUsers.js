@@ -45,6 +45,7 @@ const registerUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        name:user.name,
         admin: user.admin,
         isBlocked : user.isBlocked
       },

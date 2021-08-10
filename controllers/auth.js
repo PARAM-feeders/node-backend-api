@@ -17,13 +17,11 @@ const getLoggedInUser = async (req, res) => {
 
 // Update user
 const updateUser = async (req, res) => {
-  const { name, description, image, location } = req.body;
+  const { name, image } = req.body;
   // Build user object
   const postFields = {};
   if (name) postFields.name = name;
-  if (description) postFields.description = description;
   if (image) postFields.image = image;
-  if (location) postFields.location = location;
 
   try {
     let user = await User.findById(req.params.id);
@@ -75,6 +73,7 @@ const authUserGetToken = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        name:user.name,
         admin: user.admin,
         isBlocked: user.isBlocked
       },
