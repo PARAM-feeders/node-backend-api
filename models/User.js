@@ -27,6 +27,10 @@ const UserSchema = mongoose.Schema({
     type: Boolean,
     default : false
   },
+  picture : {
+    type: String,
+    default : "https://res.cloudinary.com/rajith/image/upload/v1626406581/feed%20the%20need/download_bovubh.jpg"
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date
 });
