@@ -1,15 +1,16 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors')
-
+const fileUpload = require('express-fileupload')
 const app = express();
-
+const cloudinary = require('cloudinary');
 // Connect Database
 connectDB();
 
 // Init Middleware
+app.use(fileUpload());
 app.use(cors());
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false , limit: '50mb'}));
 
 // Define Routes
 app.use('/api/users', require('./routes/signupUsers'));
@@ -29,6 +30,11 @@ app.use('/api/admin/orders', require('./routes/adminOrders'));
 //     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 //   );
 // }
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 const PORT = process.env.PORT || 5000;
 

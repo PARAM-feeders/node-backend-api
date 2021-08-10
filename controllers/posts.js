@@ -3,6 +3,8 @@ var nodemailer = require('nodemailer');
 const Post = require('../models/Post');
 const Pusher = require("pusher");
 
+const cloudinary = require('cloudinary');
+
 const pusher = new Pusher({
   appId: process.env.PUSHER_APPID,
   key: process.env.PUSHER_KEY,
@@ -47,10 +49,17 @@ const createPost = async (req, res) => {
   const { name, description, image, location, postedByName, postedByEmail } = req.body;
 
   try {
+
+    const result = await cloudinary.v2.uploader.upload(image, {
+      folder: 'avatars',
+      width: 1500,
+      crop: "scale"
+  })
+  var img  = result.secure_url;
     const newPost = new Post({
       name,
       description,
-      image,
+      "image" : img,
       location,
       user_id: req.user.id,
       postedByName,
